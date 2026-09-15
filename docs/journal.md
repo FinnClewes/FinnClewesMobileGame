@@ -7,6 +7,6 @@
 
 ### Shortlisted Option
 #### Micro Turn-Based Tactics
-Dungeons and Dragons-style turn-based tactics game where the player fights animals, monsters, and bandits. Where each character, including the player, uses an energy bar that refills each turn. 
+Fantasy turn-based tactics game inspired by tabletop RPGs where the player fights animals, monsters, and bandits. Where each character, including the player, uses an energy bar that refills each turn. 
 The core verb is to make tactical decisions in each turn by spending energy to move, attack, and heal, where the player chooses how to use their limited energy. 
 If time ran out I would cut out the healing element and reduce the variety of enemies, this way I can prioritise the core combat system.
