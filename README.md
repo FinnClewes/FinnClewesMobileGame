@@ -25,3 +25,13 @@ adb shell monkey -p com.yourname.mygame 1
 adb logcat -s Unity
 # [Boot] SM-S911B | Android OS 15 / API-35 | Vulkan | 1080x2340 @ 425 dpi
 ```
+
+## Keystore
+### File name
+mygame-release.keystore
+### File path
+C:\Users\ainec\Documents\College\Semester 7\Mobile Game Dev\keystores
+### Alias
+mygame
+### Validity
+50 years
