@@ -52,3 +52,11 @@ Gfx.WaitForPresentOnGfxThread - 9.76ms
 | Textures | 76 |
 | Meshes | 10 |
 | Audio | 1.1MB |
+
+## Probe
+| Probe Setting | 0.5 | 1 |
+|---------------|---|-----|
+| Main-Thread (ms) | 21.29 | 30.63 |
+| Gfx.WaitForPresentOnGfxThread (ms) | 0.00 | 7.92 |
+
+This is CPU-bound
