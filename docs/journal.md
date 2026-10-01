@@ -74,3 +74,17 @@ ProfilerCaptures/Probe=0.5
 gc.alloc is always 0
 
 no gc.collect markers appear
+
+- total reserved: 300.9MB /  TOTAL PSS:   360449
+- setpass calls: 5
+- batches: 0
+- triangles: 137
+
+## Dispaly times
+- +1s223ms
+- +1s38ms
+- +1s193ms
+
+median: +1s193ms
+
+APK size: 33001345B / 33MB
