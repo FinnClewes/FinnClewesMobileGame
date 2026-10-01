@@ -64,3 +64,13 @@ This is CPU-bound
 ### Location of captures:
 ProfilerCaptures/Probe=1
 ProfilerCaptures/Probe=0.5
+
+# Thursday 01/10/2026 
+## Baseline
+- Gameplay: [Baseline] avg 16.67 ms  p99 17.01 ms
+- Pause: avg 16.66 ms  p99 17.01 ms
+- refresh rate: 60fps
+
+gc.alloc is always 0
+
+no gc.collect markers appear
