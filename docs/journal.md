@@ -60,3 +60,7 @@ Gfx.WaitForPresentOnGfxThread - 9.76ms
 | Gfx.WaitForPresentOnGfxThread (ms) | 0.00 | 7.92 |
 
 This is CPU-bound
+
+### Location of captures:
+ProfilerCaptures/Probe=1
+ProfilerCaptures/Probe=0.5
