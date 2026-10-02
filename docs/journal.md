@@ -88,3 +88,7 @@ no gc.collect markers appear
 median: +1s193ms
 
 APK size: 33001345B / 33MB
+
+# Friday 02/10/2026
+## Minimum API level
+Android 8.0 (API level 26)
