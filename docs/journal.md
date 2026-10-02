@@ -1,4 +1,4 @@
-## Tuesday 15/09/2026
+# Tuesday 15/09/2026
 ### Reflection
 - Worked: Unity 6.6 with Android Build Support was installed, and the project was switched to Android.
 - Worked: The Development Build was created and installed on my phone using `adb install -r`.
@@ -11,12 +11,21 @@ Fantasy turn-based tactics game inspired by tabletop RPGs where the player fight
 The core verb is to make tactical decisions in each turn by spending energy to move, attack, and heal, where the player chooses how to use their limited energy. 
 If time ran out I would cut out the healing element and reduce the variety of enemies, this way I can prioritise the core combat system.
 
-## Thursday 17/09/2026
+# Thursday 17/09/2026
 ### Profiler Info
 CPU main thread ms in a typical frame, SetPass calls, GC allocated in frame.
-## CPU main thread
+### CPU main thread
 16.55ms
-## SetPass Calls
+### SetPass Calls
 3
-## GC Allocated
+### GC Allocated
 4
+
+# Monday 21/09/2026
+| Test | Expected |  |
+|------|----------|---------|
+| Press Home, wait 10 s, return | Paused, panel visible, audio silent, progress saved | ✓ |
+| Pull the notification shade down and up | Paused | ✓ |
+| Neighbour calls you, you hang up | Paused, game resumes only on Resume | ✓ |
+| Screen off with the power button, back on | Paused | ✓ |
+| Force stop from Settings, relaunch | Progress restored from the save | ✓

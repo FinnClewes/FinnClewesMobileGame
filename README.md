@@ -35,3 +35,9 @@ C:\Users\ainec\Documents\College\Semester 7\Mobile Game Dev\keystores
 mygame
 ### Validity
 50 years
+
+## Input Threshold
+### TapMax
+0.3f
+### SwipeDp 
+50f
