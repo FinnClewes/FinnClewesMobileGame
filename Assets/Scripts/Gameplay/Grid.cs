@@ -26,7 +26,10 @@ public class Grid2D : MonoBehaviour
 
     public Vector3 GridToWorld(int x, int y)
     {
-        return transform.position + new Vector3(x * cellSize, y * cellSize, 0f);
+        float offsetX = (width - 1) * cellSize / 2f;
+        float offsetY = (height - 1) * cellSize / 2f;
+        return transform.position + new Vector3(x * cellSize - offsetX, y * cellSize - offsetY, 0f);
+
     }
 
     public Vector2Int WorldToGrid(Vector3 world)

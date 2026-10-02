@@ -29,3 +29,38 @@ CPU main thread ms in a typical frame, SetPass calls, GC allocated in frame.
 | Neighbour calls you, you hang up | Paused, game resumes only on Resume | ✓ |
 | Screen off with the power button, back on | Paused | ✓ |
 | Force stop from Settings, relaunch | Progress restored from the save | ✓
+
+# Thursday 30/09/2026
+## CPU capture worst case
+### Worst Frame Main Thread
+22.10ms
+### Tallest Marker
+| Name | Time (ms) |
+|------|-------|
+| PostLateUpdate.FinishFrameRendering | 21.81 |
+| TimeUpdate.WaitForLastPresentationAndUpdateTime | 12.50 |
+| PostLateUpdate.ProfilerEndFrame | 6.85 |
+
+GC.Collect wasn't there
+
+## Rendering and Memory
+Gfx.WaitForPresentOnGfxThread - 9.76ms
+|   |   |
+|---|---|
+| Total Reserved | 396.4MB |
+| GC Allocated in Frame | 5 |
+| Textures | 76 |
+| Meshes | 10 |
+| Audio | 1.1MB |
+
+## Probe
+| Probe Setting | 0.5 | 1 |
+|---------------|---|-----|
+| Main-Thread (ms) | 21.29 | 30.63 |
+| Gfx.WaitForPresentOnGfxThread (ms) | 0.00 | 7.92 |
+
+This is CPU-bound
+
+### Location of captures:
+ProfilerCaptures/Probe=1
+ProfilerCaptures/Probe=0.5
