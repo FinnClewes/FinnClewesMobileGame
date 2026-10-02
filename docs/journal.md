@@ -64,3 +64,27 @@ This is CPU-bound
 ### Location of captures:
 ProfilerCaptures/Probe=1
 ProfilerCaptures/Probe=0.5
+
+# Thursday 01/10/2026 
+## Baseline
+- Gameplay: [Baseline] avg 16.67 ms  p99 17.01 ms
+- Pause: avg 16.66 ms  p99 17.01 ms
+- refresh rate: 60fps
+
+gc.alloc is always 0
+
+no gc.collect markers appear
+
+- total reserved: 300.9MB /  TOTAL PSS:   360449
+- setpass calls: 5
+- batches: 0
+- triangles: 137
+
+## Dispaly times
+- +1s223ms
+- +1s38ms
+- +1s193ms
+
+median: +1s193ms
+
+APK size: 33001345B / 33MB
