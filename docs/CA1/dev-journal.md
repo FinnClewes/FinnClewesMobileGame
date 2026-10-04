@@ -92,3 +92,9 @@ APK size: 33001345B / 33MB
 # Friday 02/10/2026
 ## Minimum API level
 Android 8.0 (API level 26)
+
+# Sunday 04/10/2026
+requested permissions:
+      android.permission.INTERNET
+      android.permission.VIBRATE
+      com.finnclewes.mobilegame.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
