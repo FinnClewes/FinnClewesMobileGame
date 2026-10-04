@@ -1,8 +1,6 @@
-16/09/26 - samsung SM-A556B - MyGame-0.1.0.apk
-Performing Streamed Install
+﻿Performing Streamed Install
 Success
-
-$ adb shell dumpsys package com.finnclewes.mobilegame | grep version
     versionCode=2 minSdk=26 targetSdk=36
     versionName=0.2.0
-    signatures=PackageSignatures{234ffdb version:2, signatures:[d7848a24], past signatures:[]}
+    signatures=PackageSignatures{326e710 version:2, signatures:[d7848a24], past signatures:[]}
+Screenshot taken on: SM-A556B, Android 14
