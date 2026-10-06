@@ -98,3 +98,9 @@ requested permissions:
       android.permission.INTERNET
       android.permission.VIBRATE
       com.finnclewes.mobilegame.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+
+# Monday
+- Worked: 
+- Worked: 
+- Did not work:
+- Did not work:
