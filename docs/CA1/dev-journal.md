@@ -98,3 +98,21 @@ requested permissions:
       android.permission.INTERNET
       android.permission.VIBRATE
       com.finnclewes.mobilegame.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+
+# Monday 05/10/2026
+- Worked: Made basic turn-based combat system, health indicator and physical movement on attack/hit
+- Worked: Converted TurnBasedCombat script to follow WaveTimer
+- Did not work: Player always wins, not set up or tested fir mobile use
+- Did not work: 
+## Grep Search
+```
+$ grep -rn "IEnumerator\|StartCoroutine\|WaitForSeconds" Assets/ --include=*.cs
+Assets/Scripts/Gameplay/TurnBasedCombat.cs:47:        StartCoroutine(DoAttack(player, enemy, () =>
+Assets/Scripts/Gameplay/TurnBasedCombat.cs:68:        StartCoroutine(DoAttack(enemy, player, () =>
+Assets/Scripts/Gameplay/TurnBasedCombat.cs:87:    IEnumerator DoAttack(GameObject attacker, GameObject target, System.Action onComplete)
+Assets/Scripts/Gameplay/TurnBasedCombat.cs:106:    IEnumerator MoveOverTime(GameObject obj, Vector2 startPos, Vector2 endPosition, float duration)
+```
+
+# Tuesday 27/10/2026
+instantiate - 0B
+GC Alloc - 0B
