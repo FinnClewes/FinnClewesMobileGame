@@ -21,7 +21,7 @@ adb install -r Builds/MyGame-dev.apk
 ```
 ### Launch the game
 ```bash
-adb shell monkey -p com.yourname.mygame 1
+adb shell monkey -p com.finnclewes.mobilegame 1
 adb logcat -s Unity
 # [Boot] SM-S911B | Android OS 15 / API-35 | Vulkan | 1080x2340 @ 425 dpi
 ```
@@ -89,13 +89,13 @@ git clone https://github.com/FinnClewes/FinnClewesMobileGame.git
    - Scripting Backend: **IL2CPP**
    - Target Architectures: **ARM64** only
    - Package Name: `com.finnclewes.mobilegame`
-   - Version: `0.2.0`
-   - Bundle Version Code: `2`
+   - Version: `0.3.0`
+   - Bundle Version Code: `3`
    - Minimum API Level: [26] (Android 14)
 
 5. In **File > Build Profiles > Android**, turn **Development Build** off and **Build App Bundle (Google Play)** off.
 
-6. Click **Build** and save the file as `releases/MyGame-0.2.0-arm64.apk`.
+6. Click **Build** and save the file as `releases/MyGame-0.3.0-arm64.apk`.
 
 7. Connect the phone with USB debugging on and install:
 ```
@@ -103,7 +103,7 @@ git clone https://github.com/FinnClewes/FinnClewesMobileGame.git
 ```
 Expected output: `Success`.
 
-8. If you see `INSTALL_FAILED_UPDATE_INCOMPATIBLE`, run `adb uninstall com.setu.mygame` and install again.
+8. If you see `INSTALL_FAILED_UPDATE_INCOMPATIBLE`, run `adb uninstall com.finnclewes.mobilegame` and install again.
 
 ## Device Targets
 - **Minimum API level:** [26] (Android 14)

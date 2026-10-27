@@ -1,119 +1,147 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using System.Collections;
+using UnityEngine.SceneManagement;
+using System.Threading;
+using System;
+using System.Threading.Tasks;
 
 public class TurnBasedCombat : MonoBehaviour
 {
     [SerializeField] GameObject player;
-    [SerializeField] GameObject enemy;
 
     [SerializeField] int playerHealth = 10;
     [SerializeField] int maxPlayerHealth = 10;
-    [SerializeField] int enemyHealth = 10;
-    [SerializeField] int maxEnemyHealth = 10;
+
+    [SerializeField] int playerDamage = 2;
+    [SerializeField] int enemyDamage = 2;
 
     [SerializeField] TextMeshProUGUI playerHealthText;
     [SerializeField] TextMeshProUGUI enemyHealthText;
     [SerializeField] Button attackButton;
 
+    [SerializeField] EncounterSpawner spawner;
+
+    Enemy currentEnemy;
+    GameObject enemy;
+
+    public static bool result;
+
     private bool playerTurn = true;
 
     private Vector2 playerStartPosition;
     private Vector2 enemyStartPosition;
+    CancellationToken ct;
 
-    private void Start()
+    async void Start()
     {
+        ct = destroyCancellationToken;
         playerStartPosition = player.transform.position;
-        enemyStartPosition = enemy.transform.position;
-
-        UpdateUI();
-
-        playerTurn = true;
-
         attackButton.onClick.AddListener(PlayerAttack);
+        try { await NextEnemy(); }
+        catch (OperationCanceledException) { }
     }
 
-    void PlayerAttack()
+    async Awaitable NextEnemy()
     {
-        if (!playerTurn)
+        playerTurn = false;
+        currentEnemy = await spawner.SpawnNextAsync();
+
+        if (currentEnemy == null)
         {
+            Debug.LogError("No enemy spawned. Check the EnemyPool size and prefab.");
             return;
         }
 
-        StartCoroutine(DoAttack(player, enemy, () =>
-            {
-                enemyHealth -= 2;
-
-                if (enemyHealth <= 0)
-                {
-                    enemyHealth = 0;
-                    UpdateUI();
-                    Debug.Log("Enemy defeated");
-                    return;
-                }
-
-                playerTurn = false;
-                UpdateUI();
-                Invoke(nameof(EnemyAttack), 1f);
-        }));
+        enemy = currentEnemy.gameObject;
+        enemyStartPosition = enemy.transform.position;
+        UpdateUI();
+        playerTurn = true;
     }
 
-    void EnemyAttack()
+    async void PlayerAttack()
     {
-        StartCoroutine(DoAttack(enemy, player, () =>
-        {
-            playerHealth -= 2;
+        if (!playerTurn) return;
+        playerTurn = false;
 
-            if (playerHealth <= 0)
+        try
+        {
+            await DoAttack(player, enemy);
+            bool dead = currentEnemy.TakeDamage(playerDamage);
+            UpdateUI();
+
+            if (dead)
             {
-                playerHealth = 0;
-                UpdateUI();
-                attackButton.interactable = false;
-                Debug.Log("player dead");
+                currentEnemy.Despawn();
+                if (!spawner.HasMore)
+                {
+                    EndFight(true); 
+                    return;
+                }
+                await NextEnemy();
+                return;
+            }
+
+            await Awaitable.WaitForSecondsAsync(1f, ct);
+
+            await DoAttack(enemy, player);
+            playerHealth = Mathf.Max(0, playerHealth - enemyDamage);
+            UpdateUI();
+
+            if (playerHealth == 0)
+            {
+                EndFight(false);
                 return;
             }
 
             playerTurn = true;
-            UpdateUI();
-        }));
+        }
+
+        catch (OperationCanceledException) { }
     }
 
-    IEnumerator DoAttack(GameObject attacker, GameObject target, System.Action onComplete)
+    void EndFight(bool won)
+    {
+        Debug.Log(won ? "Enemy dead" : "Player dead");
+        attackButton.interactable = false;
+        result = won;
+        SceneManager.LoadScene("Result");
+    }
+
+    async Awaitable DoAttack(GameObject attacker, GameObject target)
     {
         Vector2 attackerStart = (attacker == player) ? playerStartPosition : enemyStartPosition;
         Vector2 targetStart = (target == player) ? playerStartPosition : enemyStartPosition;
 
-        Vector2 attackPos = attackerStart + (targetStart - attackerStart).normalized * 0.5f;
-        Vector2 hitPushPos = targetStart + (targetStart - attackerStart).normalized * 0.3f;
+        Vector2 dir = (targetStart - attackerStart).normalized;
+        Vector2 attackPos = attackerStart + dir * 0.5f;
+        Vector2 hitPushPos = targetStart + dir * 0.3f;
 
-        yield return MoveOverTime(attacker, attackerStart, attackPos, 0.1f);
-
-        yield return MoveOverTime(attacker, attackerStart, attackPos, 0.1f);
-
-        yield return MoveOverTime(target, targetStart, hitPushPos, 0.05f);
-
-        yield return MoveOverTime(target, hitPushPos, targetStart, 0.1f);
-
-        onComplete?.Invoke();
+        await MoveOverTime(attacker, attackerStart, attackPos, 0.1f);
+        await MoveOverTime(target, targetStart, hitPushPos, 0.05f);
+        await MoveOverTime(target, hitPushPos, targetStart, 0.1f);
+        await MoveOverTime(attacker, attackPos, attackerStart, 0.1f);
     }
 
-    IEnumerator MoveOverTime(GameObject obj, Vector2 startPos, Vector2 endPosition, float duration)
+    async Awaitable MoveOverTime(GameObject obj, Vector2 start, Vector2 end, float duration)
     {
         float elapsed = 0f;
         while (elapsed < duration)
         {
-            obj.transform.position = Vector2.Lerp(startPos, endPosition, elapsed / duration);
+            obj.transform.position = Vector2.Lerp(start, end, elapsed / duration);
             elapsed += Time.deltaTime;
-            yield return null;
+            await Awaitable.NextFrameAsync(ct);
         }
 
-        obj.transform.position = endPosition;
+        obj.transform.position = end;
     }
 
     void UpdateUI()
     {
         playerHealthText.text = playerHealth + " / " + maxPlayerHealth;
-        enemyHealthText.text = enemyHealth + " / " + maxEnemyHealth;
+        if (currentEnemy != null)
+        {
+            enemyHealthText.text = currentEnemy.Health + " / " + currentEnemy.MaxHealth;
+        }
     }
 }
