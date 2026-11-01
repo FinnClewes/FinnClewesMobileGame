@@ -9,9 +9,10 @@
 | GC allocated per frame (bytes), allocating markers | 0 / n/a | 0 / n/a
 | Peak Total Reserved (MB) / TOTAL PSS (MB) | 300.9MB / 360449 |  284.6MB 
 | Worst case: SetPass / batches / triangles | 5 / 0 / 137 | 6 / 0 / 67
-| Cold start ms (median of 3), first interactive s | +1s193ms | +1s231ms
-| APK size (MB) | 33MB | 59MB 
+| Cold start ms (median of 3), first interactive s | +1s193ms | +1s231ms (fast)
+| APK size (MB) | 33MB | 33.2MB 
 | Thermal delta, throttling (Week 7) | |
-| Load time (Week 5) | |
+| Load time (Week 5) | | 227ms
+| Time to interactive | | 2s430ms
 
 For Row 2 I added multiple scenes such as the start menu, the game, and the end screen. I also added player and enemy spawning and death.

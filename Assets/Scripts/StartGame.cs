@@ -6,6 +6,6 @@ public class StartGame : MonoBehaviour
 {
     public void LoadScene()
         {
-            SceneManager.LoadScene("Game");
-        }
+        _ = SceneLoader.Instance.Load("Game", Application.exitCancellationToken);
+    }
 }
