@@ -13,6 +13,6 @@ public class ResultScreen : MonoBehaviour
 
     public void Retry() 
     {
-        SceneManager.LoadScene("Game"); 
+        _ = SceneLoader.Instance.Load("Game", Application.exitCancellationToken);
     }
 }

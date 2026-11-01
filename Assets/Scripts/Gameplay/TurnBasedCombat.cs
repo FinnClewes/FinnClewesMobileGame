@@ -68,6 +68,7 @@ public class TurnBasedCombat : MonoBehaviour
         {
             await DoAttack(player, enemy);
             bool dead = currentEnemy.TakeDamage(playerDamage);
+            Haptics.Pulse();
             UpdateUI();
 
             if (dead)
@@ -85,6 +86,7 @@ public class TurnBasedCombat : MonoBehaviour
             await Awaitable.WaitForSecondsAsync(1f, ct);
 
             await DoAttack(enemy, player);
+            Haptics.Pulse();
             playerHealth = Mathf.Max(0, playerHealth - enemyDamage);
             UpdateUI();
 

@@ -116,3 +116,37 @@ Assets/Scripts/Gameplay/TurnBasedCombat.cs:106:    IEnumerator MoveOverTime(Game
 # Tuesday 27/10/2026
 instantiate - 0B
 GC Alloc - 0B
+Added basic turn based functionality - needs to add a randomiser so winner isnt set
+Added muliple scenes to handle start and end 
+Added multiple enemy spawning in one round and set number of kills to win
+
+
+# Sunday 01/11/2026
+## One Lane
+on arena with one wave set (3 waves)
+
+## Launch Component
+com.finnclewes.mobilegame/com.unity3d.player.UnityPlayerGameActivity
+
+## Cold start
+adb shell am force-stop com.finnclewes.mobilegame
+adb shell am start -W -n com.finnclewes.mobilegame/com.unity3d.player.UnityPlayerGameActivity
+
+| | wait time |
+|--|--|
+| 1 | 3029 |
+| 2 | 3022 |
+| 3 | 3020 |
+
+## Perf Number
+11-01 13:19:38.038 28433 28463 I Unity   : [perf] interactive 2.45s
+11-01 13:23:01.422 29637 29663 I Unity   : [perf] interactive 2.42s
+11-01 13:24:08.556 30544 30580 I Unity   : [perf] interactive 2.42s
+
+## Playtest
+- Attack button is too small
+- Win/lose is set 
+
+- Make the UI bigger
+      - Make settings more obvious
+- Change gameplay so result isnt set
