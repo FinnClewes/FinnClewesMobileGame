@@ -105,6 +105,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f0c29edf800dc242b385b16ae8c4295, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  maxHealth: 4
+  maxHealth: 7
   healthText: {fileID: 0}
   sprite: {fileID: 3096298593944447105}

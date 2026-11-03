@@ -150,3 +150,11 @@ adb shell am start -W -n com.finnclewes.mobilegame/com.unity3d.player.UnityPlaye
 - Make the UI bigger
       - Make settings more obvious
 - Change gameplay so result isnt set
+
+# Tuesday 03/11/2026
+## Timings
+First Upgrade: 41.02s
+Coins at 3 mins: 275
+Upgrades bought: 3
+
+Adding an extra damage point for each upgrade makes the player do more damage and defeat the enemies faster, this makes progression increase non-linearly as 25 coins are collected per enemy death. 
