@@ -6,6 +6,8 @@ None
 - PlayerPrefs keys (settings only, no personal data):
   - `[haptics key]`: whether haptic feedback is on (0 or 1)
   - `[text scale key]`: the player's chosen text size (a number)
+  - `wallet.coins`: Current coin balance (integer)
+  - `wallet.level`: Current upgrade level (integer)
 - Save files: none yet
 - Local telemetry log (Week 6): stored on the device only and never uploaded
 - How a player removes it: uninstall the app, which deletes all of the above

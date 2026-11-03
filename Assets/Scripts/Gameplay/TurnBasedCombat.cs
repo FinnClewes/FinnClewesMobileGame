@@ -13,8 +13,11 @@ public class TurnBasedCombat : MonoBehaviour
     [SerializeField] int playerHealth = 10;
     [SerializeField] int maxPlayerHealth = 10;
 
-    [SerializeField] int playerDamage = 2;
+    [SerializeField] int basePlayerDamage = 2;
+    [SerializeField] int damagePerLevel = 1;
     [SerializeField] int enemyDamage = 2;
+
+    [SerializeField] int amount = 5;
 
     [SerializeField] TextMeshProUGUI playerHealthText;
     [SerializeField] TextMeshProUGUI enemyHealthText;
@@ -24,6 +27,7 @@ public class TurnBasedCombat : MonoBehaviour
 
     Enemy currentEnemy;
     GameObject enemy;
+    Wallet wallet;
 
     public static bool result;
 
@@ -32,6 +36,13 @@ public class TurnBasedCombat : MonoBehaviour
     private Vector2 playerStartPosition;
     private Vector2 enemyStartPosition;
     CancellationToken ct;
+
+    int playerDamage => basePlayerDamage + damagePerLevel * wallet.Level;
+
+    private void Awake()
+    {
+        wallet = Wallet.Instance;
+    }
 
     async void Start()
     {
@@ -73,6 +84,7 @@ public class TurnBasedCombat : MonoBehaviour
 
             if (dead)
             {
+                wallet.Earn(amount);
                 currentEnemy.Despawn();
                 if (!spawner.HasMore)
                 {

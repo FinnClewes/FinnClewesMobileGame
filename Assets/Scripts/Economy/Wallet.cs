@@ -6,7 +6,8 @@ public class Wallet : MonoBehaviour
     public int Level { get; private set; }
     public event System.Action Changed;
     public int NextCost => (int)(100 * Mathf.Pow(1.5f, Level));
-
+    public static Wallet Instance { get; private set; }
+    void Awake() => Instance = this;
     public void Earn(int n) { Coins += n; Changed?.Invoke(); }
     public void Restore(int c, int l)
     { Coins = c; Level = l; Changed?.Invoke(); }
