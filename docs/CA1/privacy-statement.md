@@ -11,6 +11,7 @@ None
 - Save files: none yet
 - Local telemetry log (Week 6): stored on the device only and never uploaded
 - How a player removes it: uninstall the app, which deletes all of the above
+- Gameplay events (listed in docs/CA2/Economy_Telemetry_Map.md) are written to telemetry.log in the app’s private storage and are never sent off the device.
 
 ## Network Activity
 None. The game makes no network requests and contacts no endpoints.
