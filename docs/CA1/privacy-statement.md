@@ -6,6 +6,7 @@ None
 - PlayerPrefs keys (settings only, no personal data):
   - `[haptics key]`: whether haptic feedback is on (0 or 1)
   - `[text scale key]`: the player's chosen text size (a number)
+  - `perf_mode`: Graphics setting: 0 = Balanced, 1 = High FPS (integer)
   - `wallet.coins`: Current coin balance (integer)
   - `wallet.level`: Current upgrade level (integer)
 - Save files: none yet
