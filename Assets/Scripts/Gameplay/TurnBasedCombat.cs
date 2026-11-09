@@ -13,8 +13,11 @@ public class TurnBasedCombat : MonoBehaviour
     [SerializeField] int playerHealth = 10;
     [SerializeField] int maxPlayerHealth = 10;
 
-    [SerializeField] int playerDamage = 2;
+    [SerializeField] int basePlayerDamage = 2;
+    [SerializeField] int damagePerLevel = 1;
     [SerializeField] int enemyDamage = 2;
+
+    [SerializeField] int amount = 5;
 
     [SerializeField] TextMeshProUGUI playerHealthText;
     [SerializeField] TextMeshProUGUI enemyHealthText;
@@ -24,6 +27,13 @@ public class TurnBasedCombat : MonoBehaviour
 
     Enemy currentEnemy;
     GameObject enemy;
+    Wallet wallet;
+
+    const int LevelId = 1;
+    static int attempt;
+    float startTime;
+    int coinsEarned;
+    int kills;
 
     public static bool result;
 
@@ -33,6 +43,13 @@ public class TurnBasedCombat : MonoBehaviour
     private Vector2 enemyStartPosition;
     CancellationToken ct;
 
+    int playerDamage => basePlayerDamage + damagePerLevel * wallet.Level;
+
+    private void Awake()
+    {
+        wallet = Wallet.Instance;
+    }
+
     async void Start()
     {
         ct = destroyCancellationToken;
@@ -40,6 +57,9 @@ public class TurnBasedCombat : MonoBehaviour
         attackButton.onClick.AddListener(PlayerAttack);
         try { await NextEnemy(); }
         catch (OperationCanceledException) { }
+        attempt++;
+        startTime = Time.time;
+        Telemetry.Log("level_start", ("level_id", LevelId), ("attempt", attempt), ("coins", wallet.Coins));
     }
 
     async Awaitable NextEnemy()
@@ -73,6 +93,10 @@ public class TurnBasedCombat : MonoBehaviour
 
             if (dead)
             {
+                int earn = 25;
+                wallet.Earn(earn);
+                coinsEarned += earn;
+                kills++;
                 currentEnemy.Despawn();
                 if (!spawner.HasMore)
                 {
@@ -104,6 +128,13 @@ public class TurnBasedCombat : MonoBehaviour
 
     void EndFight(bool won)
     {
+        float t = Time.time - startTime;
+        if (won)
+            Telemetry.Log("level_complete", ("level_id", LevelId), ("time_s", t),
+                          ("coins_earned", coinsEarned), ("score", kills));
+        else
+            Telemetry.Log("level_fail", ("level_id", LevelId), ("time_s", t),
+                          ("cause", "hp"), ("coins_earned", coinsEarned));
         Debug.Log(won ? "Enemy dead" : "Player dead");
         attackButton.interactable = false;
         result = won;

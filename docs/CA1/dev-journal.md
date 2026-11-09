@@ -150,3 +150,27 @@ adb shell am start -W -n com.finnclewes.mobilegame/com.unity3d.player.UnityPlaye
 - Make the UI bigger
       - Make settings more obvious
 - Change gameplay so result isnt set
+
+# Tuesday 03/11/2026
+## Timings
+First Upgrade: 41.02s
+Coins at 3 mins: 275
+Upgrades bought: 3
+
+Adding an extra damage point for each upgrade makes the player do more damage and defeat the enemies faster, this makes progression increase non-linearly as 25 coins are collected per enemy death. 
+
+# Monday 09/11/2026
+5.284 24256 24283 I Unity   : [telemetry] 2.14 4d144d45 session_start app_version=0.3.1 device_model=samsung SM-A556B android=Android OS 14 / API-34 (UP1A.231005.007/A556BXXS7AYC6)
+
+## Telemetry
+- Events wired: session_start, level_start, level_complete, level_fail, upgrade_purchased
+- Save/resume: background PASS · force-stop PASS · am kill PASS
+- Pack 1 due: Sun 1 Nov 2026
+
+## Reading reflection
+- In my game loop, the player earns 25 coins per kill, which is spent on upgrades costing 100, 150, 225 and so on. The upgrade increases damage by 1 per level. The game does not contain any premium currencies.
+- In my current model there is a coin shop with the option to buy 500 coins. This is a consumable. I think it is useful functionality for testing but I dont think it should be in the final game in its current state. The button is directly on the win/lose scene which makes it very accessible to the player, this makes it ethically questionable as I believe that anything that costs real money should be in a seperate scene. I also think that 500 extra coins is too much as it equates to 20 kills. This specific purchase removes one of the key components of the game: killing enemies to get better. 
+- I think the grinding in this game isnt too time consuming which would make the consumable purchase unnessesary. If i were to keep this I would need to make the money earned per kill much less to make the 500 coins worth buying. 
+- The pack doesnt currently match the price of the upgrades. This leads to left over coins after upgrades which goes directly against the guardrails
+- Another breach of the guardrails is the location of the purchase button, it is located on the win/lose scene. It should be located inside a shop scene that is accessible from the win/lose or menu scenes. The only issue with it being located on the win/lose scene is that it can be seen as a taunt or nagging after a fail. 
+- Telemetry stays on the device which doesnt raise any ethical concerns.

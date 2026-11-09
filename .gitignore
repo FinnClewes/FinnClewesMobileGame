@@ -117,3 +117,4 @@ InitTestScene*.unity*
 /[Aa]ssets/[Ss]ceneDependencyCache*
 
 /ProfilerCaptures/*
+releases/*_BackUpThisFolder_ButDontShipItWithYourGame/

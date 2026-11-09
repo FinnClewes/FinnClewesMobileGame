@@ -5,7 +5,7 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] int maxHealth = 10;
     [SerializeField] TMP_Text healthText;
-    [SerializeField] SpriteRenderer sprite;   // optional, for hit flash
+    [SerializeField] SpriteRenderer sprite;   // optional, for hit flash   
     EnemyPool pool;
 
     public int Health { get; private set; }
@@ -32,5 +32,8 @@ public class Enemy : MonoBehaviour
         if (healthText) healthText.text = Health + " / " + maxHealth;
     }
 
-    public void Despawn() => pool.Release(this);
+    public void Despawn()
+    {
+        pool.Release(this);
+    }
 }
