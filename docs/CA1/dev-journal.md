@@ -174,3 +174,7 @@ Adding an extra damage point for each upgrade makes the player do more damage an
 - The pack doesnt currently match the price of the upgrades. This leads to left over coins after upgrades which goes directly against the guardrails
 - Another breach of the guardrails is the location of the purchase button, it is located on the win/lose scene. It should be located inside a shop scene that is accessible from the win/lose or menu scenes. The only issue with it being located on the win/lose scene is that it can be seen as a taunt or nagging after a fail. 
 - Telemetry stays on the device which doesnt raise any ethical concerns.
+
+## Adaptive performance
+adb install -r Builds/MyGame-dev.apk
+

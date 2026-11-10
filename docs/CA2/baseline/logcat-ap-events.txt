@@ -1,0 +1,21 @@
+11-10 09:16:28.868  8392  8440 I Unity   : [AP] active warning=NoWarning level=0.52
+11-10 09:16:28.873  8392  8440 I Unity   : perf_mode=Balanced high=False
+11-10 09:16:28.877  8392  8440 I Unity   : [AP] thermal warning=NoWarning level=0.52 trend=0.00
+11-10 09:16:31.674  8392  8440 I Unity   : [AP] bottleneck=TargetFrameRate
+11-10 09:16:39.449  8392  8440 I Unity   : perf_mode=HighFps high=True
+11-10 09:16:47.500  8392  8440 I Unity   : [AP] thermal warning=NoWarning level=0.54 trend=0.02
+11-10 09:16:54.962  8392  8440 I Unity   : perf_mode=Balanced high=False
+11-10 09:17:20.514  8392  8440 I Unity   : [AP] thermal warning=NoWarning level=0.53 trend=0.00
+11-10 09:18:15.854  8392  8440 I Unity   : [AP] thermal warning=NoWarning level=0.54 trend=0.00
+11-10 09:18:27.840  9411  9437 I Unity   : [AP] active warning=NoWarning level=0.54
+11-10 09:18:27.842  9411  9437 I Unity   : perf_mode=Balanced high=False
+11-10 09:18:27.854  9411  9437 I Unity   : [AP] thermal warning=NoWarning level=0.54 trend=0.00
+11-10 09:18:30.240  9411  9437 I Unity   : [AP] bottleneck=TargetFrameRate
+11-10 09:18:43.176  9411  9437 I Unity   : perf_mode=HighFps high=True
+11-10 09:18:57.824  9411  9437 I Unity   : perf_mode=Balanced high=False
+11-10 09:19:02.174  9411  9437 I Unity   : [AP] thermal warning=NoWarning level=0.53 trend=0.00
+11-10 09:19:40.077  9411  9437 I Unity   : [AP] thermal warning=NoWarning level=0.55 trend=0.00
+11-10 09:19:48.140  9411  9437 I Unity   : perf_mode=HighFps high=True
+11-10 09:20:15.201  9411  9437 I Unity   : [AP] thermal warning=NoWarning level=0.56 trend=0.00
+11-10 09:20:25.307  9411  9437 I Unity   : [AP] thermal warning=NoWarning level=0.55 trend=0.14
+11-10 09:22:20.993  9411  9437 I Unity   : [AP] thermal warning=NoWarning level=0.56 trend=0.00
