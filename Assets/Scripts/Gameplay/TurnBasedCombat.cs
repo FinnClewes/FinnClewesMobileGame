@@ -5,17 +5,21 @@ using UnityEngine.SceneManagement;
 using System.Threading;
 using System;
 using System.Threading.Tasks;
+using UnityEngine.Serialization;
 
 public class TurnBasedCombat : MonoBehaviour
 {
     [SerializeField] GameObject player;
 
-    [SerializeField] int playerHealth = 10;
-    [SerializeField] int maxPlayerHealth = 10;
+    [FormerlySerializedAs("maxPlayerHealth")]
+    [SerializeField] int baseMaxHealth = 10;
+    [SerializeField] int healthPerLevel = 3;
+
+    int playerHealth;
+    int maxPlayerHealth;
 
     [SerializeField] int basePlayerDamage = 2;
     [SerializeField] int damagePerLevel = 1;
-    [SerializeField] int enemyDamage = 2;
 
     [SerializeField] int amount = 5;
 
@@ -44,10 +48,29 @@ public class TurnBasedCombat : MonoBehaviour
     CancellationToken ct;
 
     int playerDamage => basePlayerDamage + damagePerLevel * wallet.Level;
+    int MaxHealthFromWallet => baseMaxHealth + healthPerLevel * wallet.HealthLevel;
 
     private void Awake()
     {
         wallet = Wallet.Instance;
+        maxPlayerHealth = MaxHealthFromWallet;
+        playerHealth = maxPlayerHealth;
+        wallet.Changed += OnWalletChanged;
+    }
+
+    void OnDestroy()
+    {
+        if (wallet != null) wallet.Changed -= OnWalletChanged;
+    }
+
+    // Buying a health upgrade mid-fight raises max HP and heals by the same amount.
+    void OnWalletChanged()
+    {
+        int newMax = MaxHealthFromWallet;
+        if (newMax == maxPlayerHealth) return;
+        playerHealth += newMax - maxPlayerHealth;
+        maxPlayerHealth = newMax;
+        UpdateUI();
     }
 
     async void Start()
@@ -93,7 +116,7 @@ public class TurnBasedCombat : MonoBehaviour
 
             if (dead)
             {
-                int earn = 25;
+                int earn = currentEnemy.CoinReward;
                 wallet.Earn(earn);
                 coinsEarned += earn;
                 kills++;
@@ -111,7 +134,7 @@ public class TurnBasedCombat : MonoBehaviour
 
             await DoAttack(enemy, player);
             Haptics.Pulse();
-            playerHealth = Mathf.Max(0, playerHealth - enemyDamage);
+            playerHealth = Mathf.Max(0, playerHealth - currentEnemy.Damage);
             UpdateUI();
 
             if (playerHealth == 0)

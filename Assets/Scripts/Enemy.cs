@@ -5,11 +5,18 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] int maxHealth = 10;
     [SerializeField] TMP_Text healthText;
-    [SerializeField] SpriteRenderer sprite;   // optional, for hit flash   
+    [SerializeField] SpriteRenderer sprite;   // for hit flash   
     EnemyPool pool;
+
+    int damage = 2;
+    int coinReward = 25;
+    string displayName = "Enemy";
 
     public int Health { get; private set; }
     public int MaxHealth => maxHealth;
+    public int Damage => damage;
+    public int CoinReward => coinReward;
+    public string DisplayName => displayName;
 
     public Enemy Init(EnemyPool p) { pool = p; return this; }
 
@@ -35,5 +42,17 @@ public class Enemy : MonoBehaviour
     public void Despawn()
     {
         pool.Release(this);
+    }
+
+    public void Setup(EnemyType t)
+    {
+        displayName = t.displayName;
+        maxHealth = t.maxHealth;
+        damage = t.damage;
+        coinReward = t.coinReward;
+        if (sprite && t.sprite) sprite.sprite = t.sprite;
+
+        Health = maxHealth;
+        RefreshText();
     }
 }

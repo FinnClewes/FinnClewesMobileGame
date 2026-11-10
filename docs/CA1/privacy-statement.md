@@ -9,6 +9,7 @@ None
   - `perf_mode`: Graphics setting: 0 = Balanced, 1 = High FPS (integer)
   - `wallet.coins`: Current coin balance (integer)
   - `wallet.level`: Current upgrade level (integer)
+  - `wallet.health_level`: Current health upgrade level (integer)
 - Save files: none yet
 - Local telemetry log (Week 6): stored on the device only and never uploaded
 - How a player removes it: uninstall the app, which deletes all of the above
