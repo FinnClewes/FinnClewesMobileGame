@@ -15,5 +15,5 @@ MonoBehaviour:
   displayName: Slime
   maxHealth: 6
   damage: 1
-  coinReward: 15
+  coinReward: 30
   sprite: {fileID: 7482667652216324306, guid: 84b9dc2fc855ecb478967ffb41f16543, type: 3}

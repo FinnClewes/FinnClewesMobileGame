@@ -15,5 +15,5 @@ MonoBehaviour:
   displayName: Goblin
   maxHealth: 10
   damage: 2
-  coinReward: 25
+  coinReward: 45
   sprite: {fileID: 7482667652216324306, guid: 4034443cf54e3314ba6358113e275b23, type: 3}

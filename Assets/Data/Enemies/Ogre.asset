@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Ogre
   m_EditorClassIdentifier: Assembly-CSharp::EnemyType
   displayName: Ogre
-  maxHealth: 20
-  damage: 4
-  coinReward: 60
+  maxHealth: 16
+  damage: 3
+  coinReward: 120
   sprite: {fileID: 7482667652216324306, guid: 28eeb92637960bd45bef09e895a0f046, type: 3}

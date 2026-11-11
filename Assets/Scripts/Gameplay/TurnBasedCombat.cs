@@ -24,10 +24,14 @@ public class TurnBasedCombat : MonoBehaviour
     [SerializeField] int amount = 5;
 
     [SerializeField] TextMeshProUGUI playerHealthText;
-    [SerializeField] TextMeshProUGUI enemyHealthText;
     [SerializeField] Button attackButton;
+    [SerializeField] Button defendButton;
+
+    [SerializeField] TextMeshProUGUI waveText;
 
     [SerializeField] EncounterSpawner spawner;
+
+    [SerializeField] int totalWaves = 0;
 
     Enemy currentEnemy;
     GameObject enemy;
@@ -38,6 +42,8 @@ public class TurnBasedCombat : MonoBehaviour
     float startTime;
     int coinsEarned;
     int kills;
+
+    bool defending;
 
     public static bool result;
 
@@ -78,6 +84,7 @@ public class TurnBasedCombat : MonoBehaviour
         ct = destroyCancellationToken;
         playerStartPosition = player.transform.position;
         attackButton.onClick.AddListener(PlayerAttack);
+        defendButton.onClick.AddListener(PlayerDefend);
         try { await NextEnemy(); }
         catch (OperationCanceledException) { }
         attempt++;
@@ -94,6 +101,17 @@ public class TurnBasedCombat : MonoBehaviour
         {
             Debug.LogError("No enemy spawned. Check the EnemyPool size and prefab.");
             return;
+        }
+
+        if (spawner.IsBossWave)
+        {
+            waveText.text = "BOSS";
+            waveText.color = Color.red;
+        }
+        else
+        {
+            waveText.text = $"Wave {spawner.Wave}";
+            waveText.color = Color.white;
         }
 
         enemy = currentEnemy.gameObject;
@@ -121,31 +139,30 @@ public class TurnBasedCombat : MonoBehaviour
                 coinsEarned += earn;
                 kills++;
                 currentEnemy.Despawn();
-                if (!spawner.HasMore)
+                if (!spawner.HasMoreInWave)
                 {
-                    EndFight(true); 
-                    return;
-                }
+                    if (totalWaves > 0 && spawner.Wave >= totalWaves) 
+                    { 
+                        EndFight(true); return; }
+                        spawner.StartNextWave();
+                        playerHealth = Mathf.Min(maxPlayerHealth, playerHealth + maxPlayerHealth / 2);
+                    }
                 await NextEnemy();
                 return;
             }
-
-            await Awaitable.WaitForSecondsAsync(1f, ct);
-
-            await DoAttack(enemy, player);
-            Haptics.Pulse();
-            playerHealth = Mathf.Max(0, playerHealth - currentEnemy.Damage);
-            UpdateUI();
-
-            if (playerHealth == 0)
-            {
-                EndFight(false);
-                return;
-            }
-
-            playerTurn = true;
+            await EnemyTurn();
         }
 
+        catch (OperationCanceledException) { }
+    }
+
+    async void PlayerDefend()
+    {
+        if (!playerTurn) return;
+        playerTurn = false;
+        defending = true;
+
+        try { await EnemyTurn(); }
         catch (OperationCanceledException) { }
     }
 
@@ -158,8 +175,10 @@ public class TurnBasedCombat : MonoBehaviour
         else
             Telemetry.Log("level_fail", ("level_id", LevelId), ("time_s", t),
                           ("cause", "hp"), ("coins_earned", coinsEarned));
+        wallet.Restore(0, 0);
         Debug.Log(won ? "Enemy dead" : "Player dead");
         attackButton.interactable = false;
+        defendButton.interactable = false;
         result = won;
         SceneManager.LoadScene("Result");
     }
@@ -195,9 +214,26 @@ public class TurnBasedCombat : MonoBehaviour
     void UpdateUI()
     {
         playerHealthText.text = playerHealth + " / " + maxPlayerHealth;
-        if (currentEnemy != null)
+    }
+
+    async Awaitable EnemyTurn()
+    {
+        await Awaitable.WaitForSecondsAsync(1f, ct);
+
+        await DoAttack(enemy, player);
+        Haptics.Pulse();
+        int hit = defending ? 0 : currentEnemy.NextAttack;
+        playerHealth = Mathf.Max(0, playerHealth - hit);
+        defending = false;
+        currentEnemy.PlanNextMove();
+        UpdateUI();
+
+        if (playerHealth == 0)
         {
-            enemyHealthText.text = currentEnemy.Health + " / " + currentEnemy.MaxHealth;
+            EndFight(false);
+            return;
         }
+
+        playerTurn = true;
     }
 }
