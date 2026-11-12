@@ -178,3 +178,19 @@ Adding an extra damage point for each upgrade makes the player do more damage an
 ## Adaptive performance
 adb install -r Builds/MyGame-dev.apk
 
+# Wednesday 11/11/2026
+## Temp Capture
+
+start temperature: 284
+mean: 16.78
+99: 16.94
+
+after temp: 273
+mean: 16.67
+99: 17.25
+
+differnce temp; 
+mean: -0.12
+99: 0.31
+
+throttling immenent not observed in 10 mins - highest: 0.64

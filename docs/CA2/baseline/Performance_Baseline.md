@@ -16,3 +16,16 @@
 | Time to interactive | | 2s430ms
 
 For Row 2 I added multiple scenes such as the start menu, the game, and the end screen. I also added player and enemy spawning and death.
+
+## Temperature
+| Field | Value |
+|-------|-------|
+| Build ID and mode | v0.4.0, Balanced |
+| Start temperature (C) | 28.4 |
+| End temperature (C) and 10-minute delta | 27.3, -1.1 |
+| Overlay level at minute 0 / 5 / 10 | |
+| First `ThrottlingImminent` (minute, logcat time) | none |
+| `Throttling` observed (yes/no, minute) | no |
+| Frame time before: mean / 99th (ms) | 16.78 / 16.94 |
+| Frame time after: mean / 99th (ms) | 16.67 / 17.25 |
+| Conditions | plugged in, brightness 50%, case on, ambient about 21 C |
