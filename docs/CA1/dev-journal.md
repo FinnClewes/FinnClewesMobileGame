@@ -198,3 +198,20 @@ throttling immenent not observed in 10 mins - highest: 0.64
 **Sustained budget**: the A55 holds a locked 60 fps (16.7 ms) in Balanced mode for 10 minutes with no throttling (max thermal level 0.64, 99th percentile 17.25 ms).
 
 **Change***: because there is plenty of headroom, I will add combat feedback (hit flash, damage numbers) and test High FPS with the same 10-minute soak to see if 120 fps is sustainable.
+
+# Sunday 15/11/2026
+## cold start
+TotalTime: 283
+TotalTime: 165
+TotalTime: 165
+median: 165
+
+## warm start
+TotalTime: 52
+TotalTime: 47
+TotalTime: 79
+median 52
+
+## total pss
+362875 KB
+354 MB
