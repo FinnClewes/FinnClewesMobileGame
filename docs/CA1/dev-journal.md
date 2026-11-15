@@ -174,3 +174,44 @@ Adding an extra damage point for each upgrade makes the player do more damage an
 - The pack doesnt currently match the price of the upgrades. This leads to left over coins after upgrades which goes directly against the guardrails
 - Another breach of the guardrails is the location of the purchase button, it is located on the win/lose scene. It should be located inside a shop scene that is accessible from the win/lose or menu scenes. The only issue with it being located on the win/lose scene is that it can be seen as a taunt or nagging after a fail. 
 - Telemetry stays on the device which doesnt raise any ethical concerns.
+
+## Adaptive performance
+adb install -r Builds/MyGame-dev.apk
+
+# Wednesday 11/11/2026
+## Temp Capture
+
+start temperature: 284
+mean: 16.78
+99: 16.94
+
+after temp: 273
+mean: 16.67
+99: 17.25
+
+difference temp; 
+mean: -0.12
+99: 0.31
+
+throttling immenent not observed in 10 mins - highest: 0.64
+## Budget & Change
+**Sustained budget**: the A55 holds a locked 60 fps (16.7 ms) in Balanced mode for 10 minutes with no throttling (max thermal level 0.64, 99th percentile 17.25 ms).
+
+**Change***: because there is plenty of headroom, I will add combat feedback (hit flash, damage numbers) and test High FPS with the same 10-minute soak to see if 120 fps is sustainable.
+
+# Sunday 15/11/2026
+## cold start
+TotalTime: 283
+TotalTime: 165
+TotalTime: 165
+median: 165
+
+## warm start
+TotalTime: 52
+TotalTime: 47
+TotalTime: 79
+median 52
+
+## total pss
+362875 KB
+354 MB

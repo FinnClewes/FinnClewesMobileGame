@@ -52,4 +52,11 @@ public class PauseMenu : MonoBehaviour
     }
 
     void Refresh() => label.text = Haptics.Enabled ? "Haptics: On" : "Haptics: Off";
+
+    public void SetTierOverride(int option)   // 0 = Auto, 1..3 = Low..High
+    {
+        if (option == 0) PlayerPrefs.DeleteKey("tier_override");
+        else PlayerPrefs.SetInt("tier_override", option - 1);
+        PlayerPrefs.Save();
+    }
 }

@@ -5,25 +5,33 @@ using UnityEngine.SceneManagement;
 using System.Threading;
 using System;
 using System.Threading.Tasks;
+using UnityEngine.Serialization;
 
 public class TurnBasedCombat : MonoBehaviour
 {
     [SerializeField] GameObject player;
 
-    [SerializeField] int playerHealth = 10;
-    [SerializeField] int maxPlayerHealth = 10;
+    [FormerlySerializedAs("maxPlayerHealth")]
+    [SerializeField] int baseMaxHealth = 10;
+    [SerializeField] int healthPerLevel = 3;
+
+    int playerHealth;
+    int maxPlayerHealth;
 
     [SerializeField] int basePlayerDamage = 2;
     [SerializeField] int damagePerLevel = 1;
-    [SerializeField] int enemyDamage = 2;
 
     [SerializeField] int amount = 5;
 
     [SerializeField] TextMeshProUGUI playerHealthText;
-    [SerializeField] TextMeshProUGUI enemyHealthText;
     [SerializeField] Button attackButton;
+    [SerializeField] Button defendButton;
+
+    [SerializeField] TextMeshProUGUI waveText;
 
     [SerializeField] EncounterSpawner spawner;
+
+    [SerializeField] int totalWaves = 0;
 
     Enemy currentEnemy;
     GameObject enemy;
@@ -35,6 +43,8 @@ public class TurnBasedCombat : MonoBehaviour
     int coinsEarned;
     int kills;
 
+    bool defending;
+
     public static bool result;
 
     private bool playerTurn = true;
@@ -44,10 +54,29 @@ public class TurnBasedCombat : MonoBehaviour
     CancellationToken ct;
 
     int playerDamage => basePlayerDamage + damagePerLevel * wallet.Level;
+    int MaxHealthFromWallet => baseMaxHealth + healthPerLevel * wallet.HealthLevel;
 
     private void Awake()
     {
         wallet = Wallet.Instance;
+        maxPlayerHealth = MaxHealthFromWallet;
+        playerHealth = maxPlayerHealth;
+        wallet.Changed += OnWalletChanged;
+    }
+
+    void OnDestroy()
+    {
+        if (wallet != null) wallet.Changed -= OnWalletChanged;
+    }
+
+    // Buying a health upgrade mid-fight raises max HP and heals by the same amount.
+    void OnWalletChanged()
+    {
+        int newMax = MaxHealthFromWallet;
+        if (newMax == maxPlayerHealth) return;
+        playerHealth += newMax - maxPlayerHealth;
+        maxPlayerHealth = newMax;
+        UpdateUI();
     }
 
     async void Start()
@@ -55,6 +84,7 @@ public class TurnBasedCombat : MonoBehaviour
         ct = destroyCancellationToken;
         playerStartPosition = player.transform.position;
         attackButton.onClick.AddListener(PlayerAttack);
+        defendButton.onClick.AddListener(PlayerDefend);
         try { await NextEnemy(); }
         catch (OperationCanceledException) { }
         attempt++;
@@ -71,6 +101,17 @@ public class TurnBasedCombat : MonoBehaviour
         {
             Debug.LogError("No enemy spawned. Check the EnemyPool size and prefab.");
             return;
+        }
+
+        if (spawner.IsBossWave)
+        {
+            waveText.text = "BOSS";
+            waveText.color = Color.red;
+        }
+        else
+        {
+            waveText.text = $"Wave {spawner.Wave}";
+            waveText.color = Color.white;
         }
 
         enemy = currentEnemy.gameObject;
@@ -93,36 +134,35 @@ public class TurnBasedCombat : MonoBehaviour
 
             if (dead)
             {
-                int earn = 25;
+                int earn = currentEnemy.CoinReward;
                 wallet.Earn(earn);
                 coinsEarned += earn;
                 kills++;
                 currentEnemy.Despawn();
-                if (!spawner.HasMore)
+                if (!spawner.HasMoreInWave)
                 {
-                    EndFight(true); 
-                    return;
-                }
+                    if (totalWaves > 0 && spawner.Wave >= totalWaves) 
+                    { 
+                        EndFight(true); return; }
+                        spawner.StartNextWave();
+                        playerHealth = Mathf.Min(maxPlayerHealth, playerHealth + maxPlayerHealth / 2);
+                    }
                 await NextEnemy();
                 return;
             }
-
-            await Awaitable.WaitForSecondsAsync(1f, ct);
-
-            await DoAttack(enemy, player);
-            Haptics.Pulse();
-            playerHealth = Mathf.Max(0, playerHealth - enemyDamage);
-            UpdateUI();
-
-            if (playerHealth == 0)
-            {
-                EndFight(false);
-                return;
-            }
-
-            playerTurn = true;
+            await EnemyTurn();
         }
 
+        catch (OperationCanceledException) { }
+    }
+
+    async void PlayerDefend()
+    {
+        if (!playerTurn) return;
+        playerTurn = false;
+        defending = true;
+
+        try { await EnemyTurn(); }
         catch (OperationCanceledException) { }
     }
 
@@ -135,8 +175,10 @@ public class TurnBasedCombat : MonoBehaviour
         else
             Telemetry.Log("level_fail", ("level_id", LevelId), ("time_s", t),
                           ("cause", "hp"), ("coins_earned", coinsEarned));
+        wallet.Restore(0, 0);
         Debug.Log(won ? "Enemy dead" : "Player dead");
         attackButton.interactable = false;
+        defendButton.interactable = false;
         result = won;
         SceneManager.LoadScene("Result");
     }
@@ -172,9 +214,26 @@ public class TurnBasedCombat : MonoBehaviour
     void UpdateUI()
     {
         playerHealthText.text = playerHealth + " / " + maxPlayerHealth;
-        if (currentEnemy != null)
+    }
+
+    async Awaitable EnemyTurn()
+    {
+        await Awaitable.WaitForSecondsAsync(1f, ct);
+
+        await DoAttack(enemy, player);
+        Haptics.Pulse();
+        int hit = defending ? 0 : currentEnemy.NextAttack;
+        playerHealth = Mathf.Max(0, playerHealth - hit);
+        defending = false;
+        currentEnemy.PlanNextMove();
+        UpdateUI();
+
+        if (playerHealth == 0)
         {
-            enemyHealthText.text = currentEnemy.Health + " / " + currentEnemy.MaxHealth;
+            EndFight(false);
+            return;
         }
+
+        playerTurn = true;
     }
 }
