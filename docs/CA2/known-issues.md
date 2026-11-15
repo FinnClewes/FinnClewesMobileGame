@@ -1,0 +1,1 @@
+- PerformanceMode.Apply sets the render scale to 1.0 in Balanced mode, which overrides the tier’s 0.75 or 0.9.

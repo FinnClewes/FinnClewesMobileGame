@@ -40,9 +40,9 @@ public class WalletHud : MonoBehaviour
     void Refresh()
     {
         coinsLabel.SetText("{0}", wallet.Coins);            // no string concat
-        upgradeLabel.SetText("Upgrade ({0})", wallet.NextCost);
+        upgradeLabel.SetText("Damage +1 ({0} coins)", wallet.NextCost);
         upgradeButton.interactable = wallet.Coins >= wallet.NextCost;
-        healthUpgradeLabel.SetText("Health ({0})", wallet.NextHealthCost);
+        healthUpgradeLabel.SetText("Health +3 ({0} coins)", wallet.NextHealthCost);
         healthUpgradeButton.interactable = wallet.Coins >= wallet.NextHealthCost;
     }
 

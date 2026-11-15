@@ -30,4 +30,12 @@ Row 3 (0.5.0): adds enemy types, waves with a boss every 3rd wave, Defend/intent
 | `Throttling` observed (yes/no, minute) | no |
 | Frame time before: mean / 99th (ms) | 16.78 / 16.94 |
 | Frame time after: mean / 99th (ms) | 16.67 / 17.25 |
-| Conditions | plugged in, brightness 50%, case on, ambient about 21 C |
+| Conditions | unplugged, brightness 50%, case on, ambient about 21 C |
+
+## Budget
+| Category | Budget (MB) | Measured (MB) | Inside? |
+|---|---|---|---|
+| Textures (incl. atlases) | 64 | 6.6 | yes |
+| Audio | 16 | 0 | Yes (no audio) |
+| Managed heap | 32 | 39.5 | no |
+| Total PSS (from Week 8) | 400 | 394.1 | yes |
